@@ -144,7 +144,7 @@ export const WEAPONS = [
     id: 'w-ge-buster-sword', name: 'Buster Sword', type: 'grande-epee', monster: 'Bone',
     rarity: 1, requires: null,
     damage: { 1:7, 2:4, 3:1, 4:0 },
-    deckRemove: ['Frappe ×2'], deckAdd: ['Frappe Lourde ×1', 'Frappe ×1'],
+    deckRemove: [], deckAdd: ['Toutes les cartes de base'],
     recipe: [{ id: 'mat-bone-medium', qty: 1 }]
   },
   {

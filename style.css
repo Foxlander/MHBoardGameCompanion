@@ -21,74 +21,20 @@
   --subtabs-h: 42px;
 }
 
-/* ── NERGIGANTE — rouge sang / noir profond ── */
-[data-theme="nergigante"] {
-  --bg: #0d0a0a;
-  --surface: #1a1010;
-  --card: #221414;
-  --card-hover: #2e1a1a;
-  --border: #3d2020;
-  --accent: #cc3344;
-  --accent-dim: #992233;
-  --accent-bg: rgba(204,51,68,0.12);
-  --text: #f0e8e8;
-  --text-muted: #8a7070;
-}
-
-/* ── AZURE RATHALOS — bleu électrique / nuit ── */
-[data-theme="azure"] {
-  --bg: #090d14;
-  --surface: #101828;
-  --card: #162030;
-  --card-hover: #1e2d42;
-  --border: #1e3352;
-  --accent: #4499ff;
-  --accent-dim: #2266cc;
-  --accent-bg: rgba(68,153,255,0.12);
-  --text: #e8f0ff;
-  --text-muted: #6a80a0;
-}
-
-/* ── TEOSTRA — orange brûlant / charbon ── */
-[data-theme="teostra"] {
-  --bg: #0e0b08;
-  --surface: #1a1208;
-  --card: #221808;
-  --card-hover: #2e2010;
-  --border: #3d2c10;
-  --accent: #ff7722;
-  --accent-dim: #cc5500;
-  --accent-bg: rgba(255,119,34,0.12);
-  --text: #f0ede8;
-  --text-muted: #907060;
-}
-
-/* ── KUSHALA DAORA — acier / cyan glacé ── */
-[data-theme="kushala"] {
-  --bg: #090c10;
-  --surface: #10151c;
-  --card: #161d26;
-  --card-hover: #1e2a36;
-  --border: #223040;
-  --accent: #44cccc;
-  --accent-dim: #2299aa;
-  --accent-bg: rgba(68,204,204,0.12);
-  --text: #e8f4f4;
-  --text-muted: #607880;
-}
-
-/* ── LEGIANA — violet / blanc nacré ── */
-[data-theme="legiana"] {
-  --bg: #0a090f;
-  --surface: #141220;
-  --card: #1c1a2e;
-  --card-hover: #26243e;
-  --border: #302c50;
-  --accent: #bb88ff;
-  --accent-dim: #8855cc;
-  --accent-bg: rgba(187,136,255,0.12);
-  --text: #f0eeff;
-  --text-muted: #8070a0;
+/* ── CLAIR — fond clair, texte sombre ── */
+[data-theme="clair"] {
+  --bg: #f0ede4;
+  --surface: #faf8f2;
+  --card: #ffffff;
+  --card-hover: #f5f2ea;
+  --border: #d8d0c0;
+  --accent: #9a7428;
+  --accent-dim: #7a5c20;
+  --accent-bg: rgba(154,116,40,0.10);
+  --text: #1a1814;
+  --text-muted: #6a6458;
+  --danger: #cc3333;
+  --success: #2e7d4f;
 }
 
 /* ── Theme picker ── */

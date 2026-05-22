@@ -1,10 +1,6 @@
 export const THEMES = [
-  { id: '',           label: 'Hunter',  color: '#c9a84c' },
-  { id: 'nergigante', label: 'Nergi',   color: '#cc3344' },
-  { id: 'azure',      label: 'Azure',   color: '#4499ff' },
-  { id: 'teostra',    label: 'Teostra', color: '#ff7722' },
-  { id: 'kushala',    label: 'Kushala', color: '#44cccc' },
-  { id: 'legiana',    label: 'Legiana', color: '#bb88ff' },
+  { id: '',      label: 'Sombre', color: '#c9a84c' },
+  { id: 'clair', label: 'Clair',  color: '#9a7428' },
 ];
 
 export function applyTheme(id) {
