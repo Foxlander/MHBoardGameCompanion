@@ -4,6 +4,12 @@ import { State } from '../state.js';
 const SLOT_LABELS = { weapon: 'Arme', helmet: 'Casque', chest: 'Armure', boots: 'Bottes' };
 const ELEM_LABELS = { fire: 'Feu', water: 'Eau', thunder: 'Foudre', ice: 'Glace', dragon: 'Dragon' };
 const ELEM_COLORS = { fire: 'var(--fire)', water: 'var(--water)', thunder: 'var(--thunder)', ice: 'var(--ice)', dragon: 'var(--dragon)' };
+const RES_ICONS = {
+  physical: 'assets/other/Physic_Res_MHW_Icon.webp',
+  fire:     'assets/other/Effect-Fire_Res_MHW_Icon.webp',
+  water:    'assets/other/Water_Res_MHW_Icon.webp',
+  thunder:  'assets/other/Thunder_Res_MHW_Icon.webp',
+};
 
 export function renderEquipment(container, sessionId, hunterId) {
   const session = State.getSession(sessionId);
@@ -56,7 +62,10 @@ export function renderEquipment(container, sessionId, hunterId) {
           <div class="damage-grid">
             ${[1,2,3,4].map(d => `
               <div class="damage-cell">
-                <div class="damage-cell-label">Dégât ${d}</div>
+                <div class="dmg-icon-wrap ${weapon.damage[d] === 0 ? 'zero' : ''}">
+                  <img class="dmg-icon" src="assets/other/Dmg_MHW_Icon.webp" alt="">
+                  <span class="dmg-tier">${d}</span>
+                </div>
                 <div class="damage-cell-value ${weapon.damage[d] === 0 ? 'zero' : ''}">${weapon.damage[d]}</div>
               </div>
             `).join('')}
@@ -98,12 +107,12 @@ export function renderEquipment(container, sessionId, hunterId) {
         <div class="weapon-stats-card">
           <div class="damage-grid">
             <div class="damage-cell">
-              <div class="damage-cell-label">Phys.</div>
+              ${RES_ICONS.physical ? `<img class="res-icon" src="${RES_ICONS.physical}" alt="">` : '<div class="damage-cell-label">Phys.</div>'}
               <div class="damage-cell-value">${totalPhys}</div>
             </div>
             ${Object.entries(elemMap).map(([type, val]) => `
               <div class="damage-cell">
-                <div class="damage-cell-label">${ELEM_LABELS[type] || type}</div>
+                ${RES_ICONS[type] ? `<img class="res-icon" src="${RES_ICONS[type]}" alt="">` : `<div class="damage-cell-label">${ELEM_LABELS[type] || type}</div>`}
                 <div class="damage-cell-value" style="color:${ELEM_COLORS[type] || 'inherit'}">${val}</div>
               </div>
             `).join('')}

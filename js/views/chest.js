@@ -1,4 +1,4 @@
-import { COMPONENTS } from '../data.js';
+import { COMPONENTS, MONSTERS } from '../data.js';
 import { State } from '../state.js';
 
 export function renderChest(container, sessionId, hunterId) {
@@ -6,85 +6,50 @@ export function renderChest(container, sessionId, hunterId) {
   const hunter = session?.hunters.find(h => h.id === hunterId);
   if (!hunter) return;
 
+  const categories = [];
   const byCategory = {};
   for (const c of COMPONENTS) {
-    if (!byCategory[c.category]) byCategory[c.category] = [];
+    if (!byCategory[c.category]) { byCategory[c.category] = []; categories.push(c.category); }
     byCategory[c.category].push(c);
   }
 
-  const html = Object.entries(byCategory).map(([cat, items]) => {
-    const total = items.reduce((sum, c) => sum + (hunter.chest[c.id] || 0), 0);
-    return `
-      <div class="chest-section">
-        <div class="section-header" data-cat="${esc(cat)}">
-          <span class="section-header-title">${esc(cat)}</span>
-          <span class="section-header-count">${total > 0 ? total : ''}</span>
-          <span class="section-chevron open">▼</span>
-        </div>
-        <div class="section-body" data-body="${esc(cat)}">
-          <div class="component-grid">
-            ${items.map(c => {
-              const qty = hunter.chest[c.id] || 0;
-              return `
-                <div class="component-item">
-                  <span class="component-name">${esc(c.name)}</span>
-                  <div class="qty-control">
-                    <button class="qty-btn minus" data-id="${c.id}" data-delta="-1">−</button>
-                    <span class="qty-value ${qty > 0 ? 'nonzero' : ''}" data-qty="${c.id}">${qty}</span>
-                    <button class="qty-btn plus" data-id="${c.id}" data-delta="1">+</button>
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </div>
-      </div>
-    `;
+  const html = categories.map(cat => {
+    const items = byCategory[cat];
+    const chips = items.map(c => {
+      const qty = hunter.chest[c.id] || 0;
+      return `
+        <div class="comp-chip" title="${esc(c.name)}">
+          <img class="comp-chip-icon ${qty === 0 ? 'dimmed' : ''}" src="assets/components/${c.icon}" alt="">
+          <span class="comp-chip-name">${esc(c.name)}</span>
+          <button class="comp-chip-btn minus" data-id="${c.id}" data-delta="-1">−</button>
+          <span class="comp-chip-val ${qty > 0 ? 'nonzero' : ''}" data-qty="${c.id}">${qty}</span>
+          <button class="comp-chip-btn plus" data-id="${c.id}" data-delta="1">+</button>
+        </div>`;
+    }).join('');
+
+    const m = MONSTERS.find(x => x.name === cat);
+    const icon = m ? `<img class="monster-inline-icon" src="assets/monsters/${m.icon}" alt="">` : '';
+    return `<div class="comp-cat-label">${icon}${esc(cat)}</div><div class="comp-chips">${chips}</div>`;
   }).join('');
 
   container.innerHTML = html;
 
-  // Collapse toggle
-  container.querySelectorAll('.section-header').forEach(header => {
-    header.addEventListener('click', () => {
-      const cat = header.dataset.cat;
-      const body = container.querySelector(`[data-body="${CSS.escape(cat)}"]`);
-      const chevron = header.querySelector('.section-chevron');
-      body.classList.toggle('collapsed');
-      chevron.classList.toggle('open');
-    });
-  });
-
-  // +/- buttons
-  container.querySelectorAll('.qty-btn').forEach(btn => {
+  container.querySelectorAll('.comp-chip-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const { id, delta } = btn.dataset;
       State.adjustComponent(sessionId, hunterId, id, parseInt(delta));
-      const session2 = State.getSession(sessionId);
-      const hunter2 = session2.hunters.find(h => h.id === hunterId);
-      const newQty = hunter2.chest[id] || 0;
-      const qtyEl = container.querySelector(`[data-qty="${id}"]`);
+      const h = State.getSession(sessionId)?.hunters.find(h => h.id === hunterId);
+      const newQty = h?.chest[id] || 0;
+      const chip = btn.closest('.comp-chip');
+      const qtyEl = chip?.querySelector(`[data-qty="${id}"]`);
+      const icon = chip?.querySelector('.comp-chip-icon');
       if (qtyEl) {
         qtyEl.textContent = newQty;
-        qtyEl.className = `qty-value ${newQty > 0 ? 'nonzero' : ''}`;
+        qtyEl.className = `comp-chip-val ${newQty > 0 ? 'nonzero' : ''}`;
       }
-      // Update section count
-      updateSectionCount(container, sessionId, hunterId, btn);
+      if (icon) icon.classList.toggle('dimmed', newQty === 0);
     });
   });
-}
-
-function updateSectionCount(container, sessionId, hunterId, btn) {
-  const item = btn.closest('.component-item');
-  const section = item?.closest('.chest-section');
-  if (!section) return;
-  const ids = [...section.querySelectorAll('.qty-value')].map(el => el.dataset.qty);
-  const session2 = State.getSession(sessionId);
-  const hunter2 = session2?.hunters.find(h => h.id === hunterId);
-  if (!hunter2) return;
-  const total = ids.reduce((s, id) => s + (hunter2.chest[id] || 0), 0);
-  const countEl = section.querySelector('.section-header-count');
-  if (countEl) countEl.textContent = total > 0 ? total : '';
 }
 
 function esc(str) {

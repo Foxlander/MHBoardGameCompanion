@@ -3,12 +3,14 @@ import { renderHome } from './views/home.js';
 import { renderChest } from './views/chest.js';
 import { renderForge } from './views/forge.js';
 import { renderEquipment } from './views/equipment.js';
+import { renderQuests } from './views/quests.js';
 
 const app = document.getElementById('app');
 
 let currentSessionId = null;
 let currentHunterIndex = 0;
 let currentSubTab = 'chest';
+let showingQuests = false;
 
 function goHome() {
   currentSessionId = null;
@@ -28,17 +30,13 @@ function renderSession() {
   if (!hunter) { currentHunterIndex = 0; }
 
   const hunterTabsHtml = session.hunters.map((h, i) => `
-    <button class="hunter-tab ${i === currentHunterIndex ? 'active' : ''}" data-hi="${i}">
+    <button class="hunter-tab ${!showingQuests && i === currentHunterIndex ? 'active' : ''}" data-hi="${i}">
       <span class="hunter-tab-name">${esc(h.name)}</span>
+      <span class="hunter-tab-reset" data-hi="${i}" title="Remettre à zéro">↺</span>
     </button>
   `).join('');
 
-  app.innerHTML = `
-    <header class="app-header">
-      <button class="btn-icon" id="btn-back" title="Retour">←</button>
-      <span class="app-title">${esc(session.name)}</span>
-    </header>
-    <nav class="hunter-tabs">${hunterTabsHtml}</nav>
+  const subTabsHtml = showingQuests ? '' : `
     <nav class="sub-tabs">
       <button class="sub-tab ${currentSubTab === 'chest'     ? 'active' : ''}" data-sub="chest">
         <span class="sub-tab-icon">📦</span> Coffre
@@ -49,16 +47,47 @@ function renderSession() {
       <button class="sub-tab ${currentSubTab === 'equipment' ? 'active' : ''}" data-sub="equipment">
         <span class="sub-tab-icon">⚔️</span> Équipement
       </button>
+    </nav>`;
+
+  app.innerHTML = `
+    <header class="app-header">
+      <button class="btn-icon" id="btn-back" title="Retour">←</button>
+      <span class="app-title">${esc(session.name)}</span>
+    </header>
+    <nav class="hunter-tabs">
+      ${hunterTabsHtml}
+      <button class="hunter-tab quest-tab ${showingQuests ? 'active' : ''}" id="btn-quests">
+        <span class="hunter-tab-name">Quêtes</span>
+      </button>
     </nav>
+    ${subTabsHtml}
     <div class="main-content" id="tab-content"></div>
   `;
 
   app.querySelector('#btn-back').addEventListener('click', goHome);
 
-  app.querySelectorAll('.hunter-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
+  app.querySelector('#btn-quests').addEventListener('click', () => {
+    showingQuests = true;
+    renderSession();
+  });
+
+  app.querySelectorAll('.hunter-tab:not(.quest-tab)').forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      if (e.target.closest('.hunter-tab-reset')) return;
+      showingQuests = false;
       currentHunterIndex = parseInt(tab.dataset.hi);
       renderSession();
+    });
+  });
+
+  app.querySelectorAll('.hunter-tab-reset').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const hi = parseInt(btn.dataset.hi);
+      const h = session.hunters[hi];
+      if (!confirm(`Remettre ${h.name} à zéro ?\nCoffre et équipement seront effacés.`)) return;
+      State.resetHunter(currentSessionId, h.id);
+      if (currentHunterIndex === hi) renderSubTab();
     });
   });
 
@@ -77,6 +106,11 @@ function renderSubTab() {
   const content = app.querySelector('#tab-content');
   if (!content) return;
 
+  if (showingQuests) {
+    renderQuests(content, currentSessionId);
+    return;
+  }
+
   const session = State.getSession(currentSessionId);
   const hunterId = session?.hunters[currentHunterIndex]?.id;
   if (!hunterId) return;
@@ -88,6 +122,10 @@ function renderSubTab() {
   } else if (currentSubTab === 'equipment') {
     renderEquipment(content, currentSessionId, hunterId);
   }
+}
+
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 goHome();
