@@ -129,7 +129,7 @@ function esc(str) {
 }
 
 // ── Password gate ──────────────────────────────────────
-const PASSWORD = 'mhw2024';
+const PASSWORD = 'Foxlander';
 
 function renderPasswordGate() {
   app.innerHTML = `
