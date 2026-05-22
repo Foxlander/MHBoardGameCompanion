@@ -128,4 +128,44 @@ function esc(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-goHome();
+// ── Password gate ──────────────────────────────────────
+const PASSWORD = 'mhw2024';
+
+function renderPasswordGate() {
+  app.innerHTML = `
+    <div class="password-gate">
+      <div class="password-card">
+        <div class="password-title">MHW Companion</div>
+        <div class="password-subtitle">Entrez le mot de passe</div>
+        <input id="pwd-input" class="password-input" type="password" placeholder="Mot de passe" autocomplete="off">
+        <button id="pwd-btn" class="password-btn">Entrer</button>
+        <div id="pwd-error" class="password-error"></div>
+      </div>
+    </div>`;
+
+  const input = app.querySelector('#pwd-input');
+  const btn   = app.querySelector('#pwd-btn');
+  const error = app.querySelector('#pwd-error');
+
+  input.focus();
+
+  function attempt() {
+    if (input.value === PASSWORD) {
+      sessionStorage.setItem('mhw-auth', '1');
+      goHome();
+    } else {
+      error.textContent = 'Mot de passe incorrect';
+      input.value = '';
+      input.focus();
+    }
+  }
+
+  btn.addEventListener('click', attempt);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') attempt(); });
+}
+
+if (sessionStorage.getItem('mhw-auth') === '1') {
+  goHome();
+} else {
+  renderPasswordGate();
+}
