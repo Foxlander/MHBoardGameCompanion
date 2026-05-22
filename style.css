@@ -21,6 +21,107 @@
   --subtabs-h: 42px;
 }
 
+/* ── NERGIGANTE — rouge sang / noir profond ── */
+[data-theme="nergigante"] {
+  --bg: #0d0a0a;
+  --surface: #1a1010;
+  --card: #221414;
+  --card-hover: #2e1a1a;
+  --border: #3d2020;
+  --accent: #cc3344;
+  --accent-dim: #992233;
+  --accent-bg: rgba(204,51,68,0.12);
+  --text: #f0e8e8;
+  --text-muted: #8a7070;
+}
+
+/* ── AZURE RATHALOS — bleu électrique / nuit ── */
+[data-theme="azure"] {
+  --bg: #090d14;
+  --surface: #101828;
+  --card: #162030;
+  --card-hover: #1e2d42;
+  --border: #1e3352;
+  --accent: #4499ff;
+  --accent-dim: #2266cc;
+  --accent-bg: rgba(68,153,255,0.12);
+  --text: #e8f0ff;
+  --text-muted: #6a80a0;
+}
+
+/* ── TEOSTRA — orange brûlant / charbon ── */
+[data-theme="teostra"] {
+  --bg: #0e0b08;
+  --surface: #1a1208;
+  --card: #221808;
+  --card-hover: #2e2010;
+  --border: #3d2c10;
+  --accent: #ff7722;
+  --accent-dim: #cc5500;
+  --accent-bg: rgba(255,119,34,0.12);
+  --text: #f0ede8;
+  --text-muted: #907060;
+}
+
+/* ── KUSHALA DAORA — acier / cyan glacé ── */
+[data-theme="kushala"] {
+  --bg: #090c10;
+  --surface: #10151c;
+  --card: #161d26;
+  --card-hover: #1e2a36;
+  --border: #223040;
+  --accent: #44cccc;
+  --accent-dim: #2299aa;
+  --accent-bg: rgba(68,204,204,0.12);
+  --text: #e8f4f4;
+  --text-muted: #607880;
+}
+
+/* ── LEGIANA — violet / blanc nacré ── */
+[data-theme="legiana"] {
+  --bg: #0a090f;
+  --surface: #141220;
+  --card: #1c1a2e;
+  --card-hover: #26243e;
+  --border: #302c50;
+  --accent: #bb88ff;
+  --accent-dim: #8855cc;
+  --accent-bg: rgba(187,136,255,0.12);
+  --text: #f0eeff;
+  --text-muted: #8070a0;
+}
+
+/* ── Theme picker ── */
+.theme-picker {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+.theme-picker::-webkit-scrollbar { display: none; }
+.theme-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.theme-swatch-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.theme-swatch.active .theme-swatch-dot,
+.theme-swatch:hover .theme-swatch-dot { border-color: var(--text); transform: scale(1.15); }
+.theme-swatch-label { font-size: 9px; color: var(--text-muted); white-space: nowrap; }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body { height: 100%; background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; font-size: 15px; }

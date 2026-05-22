@@ -1,4 +1,5 @@
 import { State } from '../state.js';
+import { themePickerHtml, bindThemePicker } from '../theme.js';
 
 export function renderHome(app, onSessionSelect) {
   const sessions = State.getSessions();
@@ -7,6 +8,7 @@ export function renderHome(app, onSessionSelect) {
     <header class="app-header">
       <span class="app-title">MHW Companion</span>
     </header>
+    ${themePickerHtml()}
     <div class="main-content">
       <div class="home-screen">
         <div class="home-title">Monster Hunter World</div>
@@ -34,6 +36,7 @@ export function renderHome(app, onSessionSelect) {
     <div id="modal-container"></div>
   `;
 
+  bindThemePicker(app);
   app.querySelector('#btn-new-session').addEventListener('click', () => showNewSessionModal(app, onSessionSelect));
 
   app.querySelectorAll('.session-card').forEach(card => {

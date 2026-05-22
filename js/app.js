@@ -4,6 +4,7 @@ import { renderChest } from './views/chest.js';
 import { renderForge } from './views/forge.js';
 import { renderEquipment } from './views/equipment.js';
 import { renderQuests } from './views/quests.js';
+import { themePickerHtml, bindThemePicker } from './theme.js';
 
 const app = document.getElementById('app');
 
@@ -54,6 +55,7 @@ function renderSession() {
       <button class="btn-icon" id="btn-back" title="Retour">←</button>
       <span class="app-title">${esc(session.name)}</span>
     </header>
+    ${themePickerHtml()}
     <nav class="hunter-tabs">
       ${hunterTabsHtml}
       <button class="hunter-tab quest-tab ${showingQuests ? 'active' : ''}" id="btn-quests">
@@ -63,6 +65,7 @@ function renderSession() {
     ${subTabsHtml}
     <div class="main-content" id="tab-content"></div>
   `;
+  bindThemePicker(app);
 
   app.querySelector('#btn-back').addEventListener('click', goHome);
 
