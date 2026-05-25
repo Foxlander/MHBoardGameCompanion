@@ -1,0 +1,25 @@
+{
+  "name": "MHW Board Game Companion",
+  "short_name": "MHW Companion",
+  "description": "Application compagnon pour Monster Hunter World: Le Jeu de Plateau",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#111318",
+  "theme_color": "#c9a84c",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
