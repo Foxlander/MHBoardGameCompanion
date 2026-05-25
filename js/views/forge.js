@@ -40,8 +40,8 @@ export function renderForge(container, sessionId, hunterId) {
 // ── WEAPONS ───────────────────────────────────────────────
 
 function renderWeapons(body, sessionId, hunterId, hunter) {
-  // Collect types that have at least one weapon
-  const typeIds = [...new Set(WEAPONS.map(w => w.type))];
+  // Toujours afficher tous les types définis dans WEAPON_TYPES
+  const typeIds = WEAPON_TYPES.map(t => t.id);
   if (!currentWeaponType || !typeIds.includes(currentWeaponType)) {
     currentWeaponType = typeIds[0];
   }
@@ -60,10 +60,12 @@ function renderWeapons(body, sessionId, hunterId, hunter) {
     byMonster[w.monster].push(w);
   }
 
-  const chipsHtml = monsters.map(m => {
-    const chips = byMonster[m].map(w => weaponChip(w, hunter, sessionId, hunterId)).join('');
-    return `<div class="comp-cat-label">${monsterIcon(m)}${esc(m)}</div><div class="comp-chips">${chips}</div>`;
-  }).join('');
+  const chipsHtml = weapons.length === 0
+    ? `<div class="forge-empty">Aucune arme disponible pour ce type.</div>`
+    : monsters.map(m => {
+        const chips = byMonster[m].map(w => weaponChip(w, hunter, sessionId, hunterId)).join('');
+        return `<div class="comp-cat-label">${monsterIcon(m)}${esc(m)}</div><div class="comp-chips">${chips}</div>`;
+      }).join('');
 
   body.innerHTML = `<div class="wtype-tabs">${typeTabs}</div>${chipsHtml}`;
 

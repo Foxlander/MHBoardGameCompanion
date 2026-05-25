@@ -535,6 +535,12 @@ html, body { height: 100%; background: var(--bg); color: var(--text); font-famil
   gap: 4px;
   margin-bottom: 12px;
 }
+.forge-empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
 .wtype-tab {
   padding: 4px 8px;
   border: 1px solid var(--border);
