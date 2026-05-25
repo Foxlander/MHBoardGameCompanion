@@ -102,11 +102,14 @@ export const State = {
   craftAndEquip(sessionId, hunterId, slot, itemId, recipe, requires = null) {
     const hunter = this._hunter(sessionId, hunterId);
     if (!hunter) return false;
-    if (requires && hunter.equipped[slot] !== requires) return false;
-    for (const { id, qty } of recipe) {
+    const r = recipe || [];
+    if (requires
+      && hunter.equipped[slot] !== requires
+      && !(hunter.crafted || []).includes(requires)) return false;
+    for (const { id, qty } of r) {
       if ((hunter.chest[id] || 0) < qty) return false;
     }
-    for (const { id, qty } of recipe) {
+    for (const { id, qty } of r) {
       hunter.chest[id] = (hunter.chest[id] || 0) - qty;
     }
     if (!hunter.crafted) hunter.crafted = [];
@@ -127,11 +130,10 @@ export const State = {
     return true;
   },
 
-  canCraft(sessionId, hunterId, recipe, requires = null) {
+  canCraft(sessionId, hunterId, recipe) {
     const hunter = this._hunter(sessionId, hunterId);
     if (!hunter) return false;
-    if (requires && hunter.equipped.weapon !== requires) return false;
-    return recipe.every(({ id, qty }) => (hunter.chest[id] || 0) >= qty);
+    return (recipe || []).every(({ id, qty }) => (hunter.chest[id] || 0) >= qty);
   },
 
   // ── Quests ────────────────────────────────────────

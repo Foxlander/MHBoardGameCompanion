@@ -317,6 +317,56 @@ export const WEAPONS = [
     deckRemove: ['Frappe ×2', 'Frappe Légère ×1'], deckAdd: ['Coup Étourdissant ×2', 'Frappe Lourde ×1'],
     recipe: [{ id: 'mat-nergi-horn', qty: 2 }, { id: 'mat-nergi-carapace', qty: 3 }, { id: 'mat-nergi-talon', qty: 2 }]
   },
+    // ── Dual Blades ───────────────────────────────────
+  {
+    id: 'w-db-matched-slicers', name: 'Matched Slicers', type: 'dual-blades', monster: 'iron',
+    rarity: 1, requires: null,
+    damage: { 1:10, 2:2, 3:0, 4:0 },
+    deckRemove: [], deckAdd: ['Toutes les cartes de base'],
+    recipe: null
+  },
+  {
+    id: 'w-db-rending-beaks', name: 'Rending Beaks', type: 'dual-blades', monster: 'Kulu-Ya-Ku',
+    rarity: 1, requires: 'w-db-matched-slicers',
+    damage: { 1:2, 2:10, 3:2, 4:0 },
+    deckRemove: ['2 Lunging Stab'], deckAdd: ['2 Evasive Stab'],
+    recipe: [{ id: 'mat-kulu-beak', qty: 1 }, { id: 'mat-kulu-hide', qty: 2 }, { id: 'mat-kulu-scale', qty: 4 }, { id: 'mat-earth-crystal', qty: 3 }]
+  },
+  {
+    id: 'w-db-arcanaria', name: 'Arcanaria', type: 'dual-blades', monster: 'Kulu-Ya-Ku',
+    rarity: 1, requires: 'w-db-rending-beaks',
+    damage: { 1:2, 2:10, 3:4, 4:0 },
+    deckRemove: ['2 Lunging Stab, 2 Double Spin'], deckAdd: ['2 Evasive Stab, 2 Dream Spin'],
+    recipe: [{ id: 'mat-kulu-beak', qty: 1 }, { id: 'mat-kulu-hide', qty: 3 }, { id: 'mat-kulu-plume', qty: 3 }, { id: 'mat-boulder-bone', qty: 4 }]
+  },
+  {
+    id: 'w-db-twin-nails', name: 'Twin Nails', type: 'dual-blades', monster: 'Teostra',
+    rarity: 1, requires: 'w-db-matched-slicers',
+    damage: { 1:3, 2:5, 3:5, 4:1 },
+    deckRemove: ['Any 2 Cards'], deckAdd: ['2 Blast Wrath'],
+    recipe: [{ id: 'mat-teostra-claw', qty: 1 }, { id: 'mat-teostra-mane', qty: 1 }, { id: 'mat-teostra-carapace', qty: 2 }, { id: 'mat-teostra-powder', qty: 1 }]
+  },
+  {
+    id: 'w-db-fire-and-ice', name: 'Fire and Ice', type: 'dual-blades', monster: 'Kulu-Ya-Ku',
+    rarity: 1, requires: 'w-db-twin-nails',
+    damage: { 1:0, 2:9, 3:4, 4:3 },
+    deckRemove: ['Any 2 Cards, 1 Sixfold Slash, 2 Double Slash'], deckAdd: ['2 Blast Wrath, 3 Rending Slice'],
+    recipe: [{ id: 'mat-teostra-horn', qty: 3 }, { id: 'mat-teostra-claw', qty: 2 }, { id: 'mat-teostra-gem', qty: 1 }]
+  },
+  {
+    id: 'w-db-nergal-gouge', name: 'Nergal Gouge', type: 'dual-blades', monster: 'Nergigante',
+    rarity: 1, requires: 'w-db-matched-slicers',
+    damage: { 1:0, 2:5, 3:6, 4:1 },
+    deckRemove: ['4 Blade Dance'], deckAdd: ['4 Dragon Dance'],
+    recipe: [{ id: 'mat-nergi-talon', qty: 1 }, { id: 'mat-nergi-regrowth-plate', qty: 1 }, { id: 'mat-nergi-tail', qty: 2 }, { id: 'mat-nergi-carapace', qty: 2 }]
+  },
+  {
+    id: 'w-db-decimation-claws', name: 'Decimation Claws', type: 'dual-blades', monster: 'Nergigante',
+    rarity: 1, requires: 'w-db-nergal-gouge',
+    damage: { 1:0, 2:9, 3:4, 4:3 },
+    deckRemove: ['Any 2 Cards, 1 Sixfold Slash, 2 Double Slash'], deckAdd: ['2 Blast Wrath, 3 Rending Slice'],
+    recipe: [{ id: 'mat-teostra-horn', qty: 4 }, { id: 'mat-teostra-talon', qty: 3 }, { id: 'mat-teostra-gem', qty: 2 }]
+  },
 ];
 
 export const ARMORS = [
@@ -471,15 +521,29 @@ export const ARMORS = [
 
   // ── Nergigante ───────────────────────────────────
   { id: 'a-nergi-helm',  name: 'Nergigante Helm',    slot: 'helmet', monster: 'Nergigante', rarity: 5,
-    recipe: [{ id: 'mat-nergi-horn', qty: 1 }, { id: 'mat-nergi-carapace', qty: 2 }, { id: 'mat-nergi-regrowth', qty: 1 }],
-    physicalDef: 2, elemDef: null,
-    bonusStat: 'Agitator — When a monster becomes enraged, gain Attack +1 until end of quest.' },
+    recipe: [{ id: 'mat-nergi-horn', qty: 1 }, { id: 'mat-nergi-carapace', qty: 1 }, { id: 'mat-nergi-dragonscale', qty: 2 }, { id: 'mat-nergi-gem', qty: 1 }],
+    physicalDef: 2, elemDef: { type: 'fire', value: 2 },
+    bonusStat: 'Maximum Might' },
   { id: 'a-nergi-mail',  name: 'Nergigante Mail',    slot: 'chest',  monster: 'Nergigante', rarity: 5,
-    recipe: [{ id: 'mat-nergi-carapace', qty: 2 }, { id: 'mat-nergi-talon', qty: 1 }, { id: 'mat-nergi-regrowth', qty: 2 }],
-    physicalDef: 2, elemDef: null,
-    bonusStat: 'Maximum Might — If your stamina is full at the start of your turn, draw +1 damage card.' },
+    recipe: [{ id: 'mat-nergi-dragonscale', qty: 2 }, { id: 'mat-nergi-talon', qty: 2 }, { id: 'mat-elder-dragon-bone', qty: 2 }],
+    physicalDef: 2, elemDef: { type: 'ice', value: 2 },
+    bonusStat: 'Agitator' },
   { id: 'a-nergi-greaves', name: 'Nergigante Greaves', slot: 'boots', monster: 'Nergigante', rarity: 5,
     recipe: [{ id: 'mat-nergi-talon', qty: 2 }, { id: 'mat-nergi-tail', qty: 1 }, { id: 'mat-nergi-carapace', qty: 1 }],
-    physicalDef: 2, elemDef: null,
-    bonusStat: 'Peak Performance — When at full health, gain +1 attack.' },
+    physicalDef: 1, elemDef: { type: 'water', value: 2 },
+    bonusStat: 'Nergigante Hunger' },
+
+    // ── Teostra ───────────────────────────────────
+  { id: 'a-teo-helm',  name: 'Kaiser Crown',    slot: 'helmet', monster: 'Teostra', rarity: 5,
+    recipe: [{ id: 'mat-teo-carapace', qty: 2 }, { id: 'mat-teo-horn', qty: 1 }, { id: 'mat-teo-tail', qty: 1 }, { id: 'mat-firecell-stone', qty: 2 }],
+    physicalDef: 2, elemDef: { type: 'fire', value: 1 },
+    bonusStat: 'Latent Power' },
+  { id: 'a-teo-mail',  name: 'Kaiser Mail',    slot: 'chest',  monster: 'Teostra', rarity: 5,
+    recipe: [{ id: 'mat-teo-webbing', qty: 2 }, { id: 'mat-teo-powder', qty: 2 }, { id: 'mat-rathalos-plate', qty: 1 }],
+    physicalDef: 1, elemDef: { type: 'fire', value: 2 },
+    bonusStat: 'Teostra Technique' },
+  { id: 'a-teo-greaves', name: 'Kaiser Greaves', slot: 'boots', monster: 'Teostra', rarity: 5,
+    recipe: [{ id: 'mat-fire-dragonscale', qty: 2 }, { id: 'mat-teo-mane', qty: 1 }],
+    physicalDef: 2, elemDef: { type: 'fire', value: 1 },
+    bonusStat: 'Weakness Exploit' },
 ];

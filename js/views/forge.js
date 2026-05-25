@@ -105,7 +105,7 @@ function weaponChip(w, hunter, sessionId, hunterId) {
   const isEquipped = hunter.equipped.weapon === w.id;
   const isCrafted  = (hunter.crafted || []).includes(w.id);
   const superseded = chainAncestors(hunter.equipped.weapon).has(w.id);
-  const canCraft   = State.canCraft(sessionId, hunterId, w.recipe, w.requires);
+  const canCraft   = State.canCraft(sessionId, hunterId, w.recipe);
   const requiresMet = !w.requires
     || hunter.equipped.weapon === w.requires
     || (hunter.crafted || []).includes(w.requires);
@@ -167,7 +167,7 @@ function openWeaponModal(wid, sessionId, hunterId) {
   const isEquipped  = hunter?.equipped.weapon === wid;
   const isCrafted   = (hunter?.crafted || []).includes(wid);
   const superseded  = chainAncestors(hunter?.equipped.weapon).has(wid);
-  const canCraft    = State.canCraft(sessionId, hunterId, weapon.recipe, weapon.requires);
+  const canCraft    = State.canCraft(sessionId, hunterId, weapon.recipe);
   const requiresMet = !weapon.requires
     || hunter?.equipped.weapon === weapon.requires
     || (hunter?.crafted || []).includes(weapon.requires);
