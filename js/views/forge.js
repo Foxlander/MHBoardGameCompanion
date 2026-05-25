@@ -293,6 +293,8 @@ const RES_ICONS = {
   fire:     'assets/other/Effect-Fire_Res_MHW_Icon.webp',
   water:    'assets/other/Water_Res_MHW_Icon.webp',
   thunder:  'assets/other/Thunder_Res_MHW_Icon.webp',
+  ice:      'assets/other/Status_Effect-Ice_Res_Up_S_MHW_Icon.webp',
+  dragon:   'assets/other/Status_Effect-Dragon_Res_Up_S_MHW_Icon.webp',
 };
 
 function renderArmors(body, sessionId, hunterId, hunter) {
