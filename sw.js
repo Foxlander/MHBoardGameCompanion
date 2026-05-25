@@ -1,7 +1,5 @@
 // ── MHW Companion — Service Worker ──────────────────────
-// Bump CACHE_VERSION quand tu modifies des fichiers statiques
-const CACHE_VERSION = 'v3';
-const CACHE_NAME = `mhw-companion-${CACHE_VERSION}`;
+const CACHE_NAME = 'mhw-companion-v3';
 
 const ASSETS = [
   '/',
@@ -21,7 +19,7 @@ const ASSETS = [
   '/js/views/quests.js',
 ];
 
-// ── Install : on met tout en cache ───────────────────────
+// ── Install : précache les fichiers essentiels ───────────
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -30,38 +28,51 @@ self.addEventListener('install', event => {
   );
 });
 
-// ── Activate : on supprime les anciens caches ────────────
+// ── Activate : supprime les anciens caches ───────────────
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
       .then(keys => Promise.all(
-        keys
-          .filter(k => k !== CACHE_NAME)
-          .map(k => caches.delete(k))
+        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
       ))
       .then(() => self.clients.claim())
   );
 });
 
-// ── Fetch : cache-first, réseau en fallback ──────────────
+// ── Fetch : network-first pour JS/CSS/HTML, cache-first pour images ──
 self.addEventListener('fetch', event => {
-  // On ignore les requêtes non-GET et les extensions navigateur
   if (event.request.method !== 'GET') return;
   if (!event.request.url.startsWith(self.location.origin)) return;
 
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
+  const url = new URL(event.request.url);
+  const isAsset = /\.(webp|png|svg|ico)$/.test(url.pathname);
 
-      // Pas en cache → réseau, puis on met en cache pour la prochaine fois
-      return fetch(event.request).then(response => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
+  if (isAsset) {
+    // Images → cache-first (elles changent rarement)
+    event.respondWith(
+      caches.match(event.request).then(cached => {
+        if (cached) return cached;
+        return fetch(event.request).then(response => {
+          if (response && response.status === 200 && response.type === 'basic') {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          }
           return response;
-        }
-        const clone = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-        return response;
-      });
-    })
-  );
+        });
+      })
+    );
+  } else {
+    // JS / CSS / HTML → network-first (toujours à jour, fallback cache si hors-ligne)
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          if (response && response.status === 200 && response.type === 'basic') {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+  }
 });
