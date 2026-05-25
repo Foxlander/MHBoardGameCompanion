@@ -106,7 +106,9 @@ function weaponChip(w, hunter, sessionId, hunterId) {
   const isCrafted  = (hunter.crafted || []).includes(w.id);
   const superseded = chainAncestors(hunter.equipped.weapon).has(w.id);
   const canCraft   = State.canCraft(sessionId, hunterId, w.recipe, w.requires);
-  const requiresMet = !w.requires || hunter.equipped.weapon === w.requires;
+  const requiresMet = !w.requires
+    || hunter.equipped.weapon === w.requires
+    || (hunter.crafted || []).includes(w.requires);
   const upgradeIcon = w.requires ? '<span class="upgrade-icon" title="Amélioration">↑</span>' : '';
 
   let actionBtn;
@@ -165,8 +167,10 @@ function openWeaponModal(wid, sessionId, hunterId) {
   const isEquipped  = hunter?.equipped.weapon === wid;
   const isCrafted   = (hunter?.crafted || []).includes(wid);
   const superseded  = chainAncestors(hunter?.equipped.weapon).has(wid);
-  const requiresMet = !weapon.requires || hunter?.equipped.weapon === weapon.requires;
   const canCraft    = State.canCraft(sessionId, hunterId, weapon.recipe, weapon.requires);
+  const requiresMet = !weapon.requires
+    || hunter?.equipped.weapon === weapon.requires
+    || (hunter?.crafted || []).includes(weapon.requires);
 
   const damageHtml = `
     <div class="modal-section-label">Tableau de dégâts</div>
