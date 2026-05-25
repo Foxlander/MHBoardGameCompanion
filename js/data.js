@@ -370,7 +370,7 @@ export const WEAPONS = [
 ];
 
 export const ARMORS = [
-  // ── Generic ───────────────────────────────────────
+  // ── Iron ───────────────────────────────────────
   { id: 'a-leather-helm',  name: 'Leather Headgear', slot: 'helmet', monster: 'Common', rarity: 1,
     recipe: [], physicalDef: 0, elemDef: null, bonusStat: '' },
   { id: 'a-leather-mail',  name: 'Leather Mail',     slot: 'chest',  monster: 'Common', rarity: 1,
@@ -466,16 +466,16 @@ export const ARMORS = [
 
   // ── Tobi-Kadachi ─────────────────────────────────
   { id: 'a-kadachi-helm',  name: 'Kadachi Helm',    slot: 'helmet', monster: 'Tobi-Kadachi', rarity: 3,
-    recipe: [{ id: 'mat-tobi-pelt', qty: 1 }, { id: 'mat-tobi-claw', qty: 1 }],
+    recipe: [{ id: 'mat-tobi-pelt', qty: 1 }, { id: 'mat-tobi-claw', qty: 1 }, { id: 'mat-electro-sac', qty: 1 }],
     physicalDef: 0, elemDef: { type: 'thunder', value: 2 },
     bonusStat: 'Constitution — Once per quest, discard attack cards when dodging.' },
   { id: 'a-kadachi-mail',  name: 'Kadachi Mail',    slot: 'chest',  monster: 'Tobi-Kadachi', rarity: 3,
-    recipe: [{ id: 'mat-tobi-pelt', qty: 1 }, { id: 'mat-tobi-electrode', qty: 1 }, { id: 'mat-tobi-membrane', qty: 2 }, { id: 'mat-wingdrake-hide', qty: 1 }],
+    recipe: [{ id: 'mat-tobi-pelt', qty: 1 }, { id: 'mat-electrode', qty: 1 }, { id: 'mat-tobi-membrane', qty: 2 }, { id: 'mat-wingdrake-hide', qty: 1 }],
     physicalDef: 1, elemDef: { type: 'thunder', value: 1 },
     bonusStat: 'Evade Extender — Move +1 when dodging.' },
   { id: 'a-kadachi-greaves', name: 'Kadachi Greaves', slot: 'boots', monster: 'Tobi-Kadachi', rarity: 3,
     recipe: [{ id: 'mat-tobi-scale', qty: 2 }, { id: 'mat-tobi-pelt', qty: 1 }],
-    physicalDef: 1, elemDef: { type: 'thunder', value: 2 },
+    physicalDef: 0, elemDef: { type: 'thunder', value: 1 },
     bonusStat: 'Thunder Attack — Draw +1 damage card on thunder attacks.' },
 
   // ── Anjanath ─────────────────────────────────────
@@ -488,7 +488,7 @@ export const ARMORS = [
     physicalDef: 1, elemDef: { type: 'fire', value: 1 },
     bonusStat: 'Marathon Runner — Move 2 instead of 1 when walking.' },
   { id: 'a-anja-greaves', name: 'Anja Greaves', slot: 'boots', monster: 'Anjanath', rarity: 3,
-    recipe: [{ id: 'mat-anjanath-scale', qty: 1 }, { id: 'mat-anjanath-pelt', qty: 1 }, { id: 'mat-machalite-ore', qty: 2 }],
+    recipe: [{ id: 'mat-anjanath-scale', qty: 1 }, { id: 'mat-anjanath-pelt', qty: 1 }, { id: 'mat-flame-sac', qty: 1 }, { id: 'mat-machalite-ore', qty: 2 }],
     physicalDef: 1, elemDef: { type: 'fire', value: 2 }, bonusStat: '' },
 
   // ── Rathalos ─────────────────────────────────────
