@@ -1,6 +1,6 @@
 // ── MHW Companion — Service Worker ──────────────────────
 // Bump CACHE_VERSION quand tu modifies des fichiers statiques
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = `mhw-companion-${CACHE_VERSION}`;
 
 const ASSETS = [
